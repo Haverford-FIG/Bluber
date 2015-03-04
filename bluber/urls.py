@@ -8,6 +8,7 @@ urlpatterns = patterns('',
 
     # '?' is RegEx "operator" meaning the previous character
     # is optional.
+    url(r'^', 'bluber.views.home_view'),
     url(r'^homes?/?', 'bluber.views.home_view'),
 
     url(r'^admin/', include(admin.site.urls)),

@@ -46,6 +46,12 @@ from django.contrib.auth.models import User
 
 
 
+class Comment(models.Model):
+    submitted_on = models.DateTimeField()
+    user = models.ForeignKey(User)
+    content = models.TextField()
+
+
 class Trip(models.Model):
     start_datetime = models.DateTimeField()
 
@@ -55,35 +61,22 @@ class Trip(models.Model):
     start_gps = models.CharField(max_length=120)
     end_gps = models.CharField(max_length=120)
 
-    requested_by = models.ManyToManyField(User)
+    requested_by = models.ManyToManyField(User, related_name='request_set')
     driver = models.ForeignKey(User, null=True, blank=True)
 
     max_capacity = models.IntegerField(default=4)
     price = models.FloatField(default=0)
     details = models.TextField(default="")
 
-    comments = models.ManyToManyField(Comment)
+    comments = models.ManyToManyField(Comment, related_name='comment_set')
 
 
 class ExpandedUser(models.Model):
     user = models.ForeignKey(User, unique=True)
 
-    offered_trips = models.ManyToManyField(Trip)
-    requested_trips = models.ManyToManyField(Trip)
+    offered_trips = models.ManyToManyField(Trip, related_name='offer_set')
+    requested_trips = models.ManyToManyField(Trip, related_name='request_set')
 
-    saved_trips = models.ManyToManyField(Trip)
-    past_trips = models.ManyToManyField(Trip)
-
-
-
-class Comment(models.Model):
-    submitted_on = models.DateTimeField()
-    user = models.ForeignKey(User)
-    trip = models.ForeignKey(Trip)
-    content = models.TextField()
-
-
-
-
-
+    saved_trips = models.ManyToManyField(Trip, related_name='saved_set')
+    past_trips = models.ManyToManyField(Trip, related_name='past_set')
 

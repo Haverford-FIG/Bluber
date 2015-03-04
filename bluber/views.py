@@ -1,11 +1,25 @@
 
 def home_view(request):
-  from django.http import HttpResponse
+  from django.shortcuts import render
+  from models import Trip
 
-  # Generate some random number to show it's dynamic!
-  import random
-  response = random.random()
+  make_test_trip()
 
-  return HttpResponse(response)
+  trips = Trip.objects.all()
+
+  return render(request, "home_view.html", {"trips":trips})
 
 
+
+
+def make_test_trip():
+    from models import Trip
+    import datetime
+    trip = Trip()
+    trip.start_location = "Here"
+    trip.end_location = "There"
+
+    trip.start_datetime = datetime.datetime.now()
+    trip.end_datetime = datetime.datetime.now()
+
+    trip.save()
