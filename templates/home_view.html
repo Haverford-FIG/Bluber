@@ -1,11 +1,15 @@
 <html>
-<head></head>
+<head>
+
+{% include "header.html" %}
+
+</head>
 
 <body>
 
-{% for trip in trips %}
-  <div>From {{trip.start_location}} to {{trip.end_location}}</div>
-{% endfor %}
+number of trips: {{trips|length}}
+
+{% include "trip_form.html" %}
 
 
 <head>
